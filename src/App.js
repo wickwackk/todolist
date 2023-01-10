@@ -1,23 +1,47 @@
-import logo from './logo.svg';
-import './App.css';
+import logo from "./logo.svg";
+import "./App.css";
+import { useState } from "react";
 
 function App() {
+  const [todo, setTodo] = useState([]);
+  // let input = document.querySelector("input");
+  function add(event) {
+    event.preventDefault();
+
+    setTodo([...todo, event.target.input.value]);
+    event.target.input.value = "";
+  }
+  function dlt(event) {
+    // event.preventDefault();
+    todo.splice(event.target.value, 1);
+    setTodo([...todo]);
+  }
+
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      <div>
+        <form onSubmit={add}>
+          <input name="input" type="text" />
+          <button type="submit">Add</button>
+        </form>
+      </div>
+      <ul>
+        {todo.map((list, index) => {
+          return (
+            <li key={index}>
+              {index + 1}. {list}
+              <button
+                value={index}
+                className="delete"
+                type="submit"
+                onClickCapture={dlt}
+              >
+                Delete
+              </button>
+            </li>
+          );
+        })}
+      </ul>
     </div>
   );
 }
